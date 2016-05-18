@@ -44,8 +44,8 @@ public class TestDBConnect extends HttpServlet {
 		    out.println("<p>");
 
 		    Connection conn = null;
-		    String url = "jdbc:mysql://localhost/HNS";
-		    String user = "root";
+		    String url = "jdbc:mysql://172.16.0.22/HNS";
+		    String user = "user1";
 		    String password = "mysql";
 		    String driverName = "com.mysql.jdbc.Driver";
 

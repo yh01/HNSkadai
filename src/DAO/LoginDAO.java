@@ -10,8 +10,8 @@ import util.DBConnector;
 
 public class LoginDAO {
 	private String sql,
-		dbUrl="jdbc:mysql://localhost/",
-		dbUser = "root",
+		dbUrl="jdbc:mysql://172.16.0.22/",
+		dbUser = "user1",
 		dbPass = "mysql",
 		dbName = "HNS";
 	private Connection con;
