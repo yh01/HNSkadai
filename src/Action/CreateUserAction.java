@@ -8,27 +8,29 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import DAO.InsertAddressDAO;
+import DAO.CreateUserDAO;
 
 /**
- * Servlet implementation class InsertAddressAction
+ * Servlet implementation class CreateUserAction
  */
-@WebServlet("/InsertAddressAction")
-public class InsertAddressAction extends HttpServlet {
+@WebServlet("/CreateUserAction")
+public class CreateUserAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	String name,pass;
 	int count;
-	Object id;
-	String address;
-	InsertAddressDAO dao = new InsertAddressDAO();
-	HttpSession session;
+	CreateUserDAO dao = new CreateUserDAO();
+
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		RequestDispatcher rD = request.getRequestDispatcher("insert_address.jsp");
+		RequestDispatcher rD = request.getRequestDispatcher("login.jsp");
 		rD.forward(request, response);
 	}
 
@@ -38,19 +40,13 @@ public class InsertAddressAction extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");
-		session = request.getSession();
-		if(session.getAttribute("id")!=null){
-			id = session.getAttribute("id");
-			address = request.getParameter("address");
-			count = dao.insertAddress((int)id, address);
-			if(count > 0){
-				RequestDispatcher rD = request.getRequestDispatcher("success_insert.jsp");
-				rD.forward(request, response);
-			}else if(count == 0){
-				RequestDispatcher rD = request.getRequestDispatcher("insert_address.jsp");
-				rD.forward(request, response);
-			}
-		}else if(session.getAttribute("id")==null){
+		name = request.getParameter("name");
+		pass = request.getParameter("pass");
+		count = dao.insertUser(name,pass);
+		if(count > 0){
+			RequestDispatcher rD = request.getRequestDispatcher("success_create_user.jsp");
+			rD.forward(request, response);
+		}else if(count == 0){
 			RequestDispatcher rD = request.getRequestDispatcher("login.jsp");
 			rD.forward(request, response);
 		}

@@ -13,5 +13,15 @@
 パスワード：<input type="text" name="pass"><br>
 <input type="submit" value="ログイン">
 </form>
+<br>
+<br>
+<br>
+
+<form action="/HNS/CreateUserAction" method="post">
+名前：<input type="text" name="name"><br>
+パスワード：<input type="text" name="pass"><br>
+<input type="submit" value="新規登録">
+</form>
+
 </body>
 </html>

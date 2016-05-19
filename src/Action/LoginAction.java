@@ -50,7 +50,7 @@ public class LoginAction extends HttpServlet {
 			id = dto.getId();
 			session = request.getSession();
 			session.setAttribute("id", id);
-			RequestDispatcher rD = request.getRequestDispatcher("trn_address.jsp");
+			RequestDispatcher rD = request.getRequestDispatcher("insert_address.jsp");
 			rD.forward(request, response);
 		}else if(!result){
 			RequestDispatcher rD = request.getRequestDispatcher("login.jsp");

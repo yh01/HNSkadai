@@ -4,10 +4,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>登録成功画面</title>
+<title>登録成功</title>
 </head>
 <body>
 登録成功しました。
-<a href ="insert_address.jsp">住所登録画面に戻る</a>
+<a href ="login.jsp">ログイン画面に戻る</a>
 </body>
 </html>
