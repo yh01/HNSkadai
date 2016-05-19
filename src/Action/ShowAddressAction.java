@@ -10,29 +10,28 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import DAO.LoginDAO;
-import DTO.LoginDTO;
+import DAO.ShowAddressDAO;
+import DTO.ShowAddressDTO;
 
 /**
- * Servlet implementation class LoginAction
+ * Servlet implementation class ShowAddressAction
  */
-@WebServlet("/LoginAction")
-public class LoginAction extends HttpServlet {
+@WebServlet("/ShowAddressAction")
+public class ShowAddressAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	String name,pass,loginMessage = null;
 	int id;
+	String address,showAddressMessage;
 	boolean result;
-	LoginDAO dao = new LoginDAO();
-	LoginDTO dto = new LoginDTO();
+	ShowAddressDAO dao = new ShowAddressDAO();
+	ShowAddressDTO dto = new ShowAddressDTO();
 	HttpSession session;
 	RequestDispatcher rD;
-
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		RequestDispatcher rD = request.getRequestDispatcher("login.jsp");
+		rD = request.getRequestDispatcher("management_address.jsp");
 		rD.forward(request, response);
 	}
 
@@ -42,26 +41,27 @@ public class LoginAction extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");
-		name = request.getParameter("name");
-		pass = request.getParameter("pass");
-		if(!name.isEmpty() && !pass.isEmpty()){
-		result = dao.selectUser(name, pass);
+		session = request.getSession();
+		if(session.getAttribute("id")!=null){
+			id = (int)session.getAttribute("id");
+			result = dao.selectAddress(id);
 			if(result){
+				showAddressMessage = "表示します";
+				request.setAttribute("showAddressMessage", showAddressMessage);
 				dto = dao.getDto();
-				id = dto.getId();
-				session = request.getSession();
-				session.setAttribute("id", id);
+				address = dto.getAddress();
+				request.setAttribute("address", address);
 				rD = request.getRequestDispatcher("management_address.jsp");
 				rD.forward(request, response);
 			}else if(!result){
-				loginMessage = "ログインに失敗しました。";
-				request.setAttribute("loginMessage", loginMessage);
-				rD = request.getRequestDispatcher("login.jsp");
+				showAddressMessage = "表示出来ませんでした。住所情報が登録されていない可能性があります。";
+				request.setAttribute("showAddressMessage", showAddressMessage);
+				rD = request.getRequestDispatcher("management_address.jsp");
 				rD.forward(request, response);
 			}
-		}else if(name.isEmpty() || pass.isEmpty()){
-			loginMessage = "名前とパスワード両方入力してください。";
-			request.setAttribute("loginMessage", loginMessage);
+		}else if(session.getAttribute("id")==null){
+			showAddressMessage = "未ログインなのでログイン画面に移動しました。";
+			request.setAttribute("loginMessage", showAddressMessage);
 			rD = request.getRequestDispatcher("login.jsp");
 			rD.forward(request, response);
 		}

@@ -10,25 +10,26 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import DAO.InsertAddressDAO;
+import DAO.UpdateAddressDAO;
 
 /**
- * Servlet implementation class InsertAddressAction
+ * Servlet implementation class UpdateAddressAction
  */
-@WebServlet("/InsertAddressAction")
-public class InsertAddressAction extends HttpServlet {
+@WebServlet("/UpdateAddressAction")
+public class UpdateAddressAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	int count,id;
-	String address,insertAddressMessage;
-	InsertAddressDAO dao = new InsertAddressDAO();
+	String address,updateAddressMessage;
+	UpdateAddressDAO dao = new UpdateAddressDAO();
 	HttpSession session;
 	RequestDispatcher rD;
+
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		rD = request.getRequestDispatcher("insert_address.jsp");
+		rD = request.getRequestDispatcher("management_address.jsp");
 		rD.forward(request, response);
 	}
 
@@ -43,27 +44,27 @@ public class InsertAddressAction extends HttpServlet {
 			id = (int)session.getAttribute("id");
 			address = request.getParameter("address");
 			if(!address.isEmpty()){
-				count = dao.insertAddress(id, address);
+				count = dao.updateAddress(id, address);
 				if(count > 0){
-					insertAddressMessage = "住所の登録に成功しました。";
-					request.setAttribute("insertAddressMessage", insertAddressMessage);
+					updateAddressMessage = "住所情報の更新に成功しました。";
+					request.setAttribute("updateAddressMessage", updateAddressMessage);
 					rD = request.getRequestDispatcher("management_address.jsp");
 					rD.forward(request, response);
 				}else if(count == 0){
-					insertAddressMessage = "住所の登録に失敗しました。";
-					request.setAttribute("insertAddressMessage", insertAddressMessage);
+					updateAddressMessage = "住所情報の更新に失敗しました。\n住所情報の新規登録が行われていない可能性があります。";
+					request.setAttribute("updateAddressMessage", updateAddressMessage);
 					rD = request.getRequestDispatcher("management_address.jsp");
 					rD.forward(request, response);
 				}
 			}else if(address.isEmpty()){
-				insertAddressMessage = "住所を入力してください。";
-				request.setAttribute("insertAddressMessage", insertAddressMessage);
+				updateAddressMessage = "更新する住所が入力されていません。";
+				request.setAttribute("updateAddressMessage", updateAddressMessage);
 				rD = request.getRequestDispatcher("management_address.jsp");
 				rD.forward(request, response);
 			}
 		}else if(session.getAttribute("id")==null){
-			insertAddressMessage = "未ログインなのでログイン画面に移動しました。";
-			request.setAttribute("loginMessage", insertAddressMessage);
+			updateAddressMessage = "未ログインなのでログイン画面に移動しました。";
+			request.setAttribute("loginMessage", updateAddressMessage);
 			rD = request.getRequestDispatcher("login.jsp");
 			rD.forward(request, response);
 		}

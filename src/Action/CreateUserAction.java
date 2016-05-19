@@ -17,9 +17,10 @@ import DAO.CreateUserDAO;
 @WebServlet("/CreateUserAction")
 public class CreateUserAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	String name,pass;
+	String name,pass,createUserMessage;
 	int count;
 	CreateUserDAO dao = new CreateUserDAO();
+	RequestDispatcher rD;
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -30,7 +31,7 @@ public class CreateUserAction extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		RequestDispatcher rD = request.getRequestDispatcher("login.jsp");
+		rD = request.getRequestDispatcher("login.jsp");
 		rD.forward(request, response);
 	}
 
@@ -42,12 +43,23 @@ public class CreateUserAction extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		name = request.getParameter("name");
 		pass = request.getParameter("pass");
-		count = dao.insertUser(name,pass);
-		if(count > 0){
-			RequestDispatcher rD = request.getRequestDispatcher("success_create_user.jsp");
-			rD.forward(request, response);
-		}else if(count == 0){
-			RequestDispatcher rD = request.getRequestDispatcher("login.jsp");
+		if(!name.isEmpty() && !pass.isEmpty()){
+			count = dao.insertUser(name,pass);
+			if(count > 0){
+				createUserMessage = "登録に成功しました。";
+				request.setAttribute("createUserMessage", createUserMessage);
+				rD = request.getRequestDispatcher("login.jsp");
+				rD.forward(request, response);
+			}else if(count == 0){
+				createUserMessage = "登録に失敗しました。";
+				request.setAttribute("createUserMessage", createUserMessage);
+				rD = request.getRequestDispatcher("login.jsp");
+				rD.forward(request, response);
+			}
+		}else if(name.isEmpty() || pass.isEmpty()){
+			createUserMessage = "名前とパスワード両方入力してください。";
+			request.setAttribute("createUserMessage", createUserMessage);
+			rD = request.getRequestDispatcher("login.jsp");
 			rD.forward(request, response);
 		}
 	}

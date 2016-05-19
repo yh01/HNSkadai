@@ -5,23 +5,37 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>login</title>
+<title>ログイン画面</title>
 </head>
+<%
+	String loginMessage="",createUserMessage="";
+	if(request.getAttribute("loginMessage") != null){
+		loginMessage = (String)request.getAttribute("loginMessage");
+	}
+	if(request.getAttribute("createUserMessage") != null){
+		createUserMessage = (String)request.getAttribute("createUserMessage");
+	}
+%>
 <body>
-<form action="/HNS/LoginAction" method="post">
-名前：<input type="text" name="name"><br>
-パスワード：<input type="text" name="pass"><br>
-<input type="submit" value="ログイン">
-</form>
-<br>
-<br>
-<br>
-
-<form action="/HNS/CreateUserAction" method="post">
-名前：<input type="text" name="name"><br>
-パスワード：<input type="text" name="pass"><br>
-<input type="submit" value="新規登録">
-</form>
-
+	<h2>ログイン</h2>
+	<form action="/HNS/LoginAction" method="post">
+		名前：<input type="text" name="name"><br>
+		パスワード：<input type="text" name="pass"><br>
+		<input type="submit" value="ログイン">
+	</form>
+		<%= loginMessage %>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<h2>新規登録</h2>
+	<form action="/HNS/CreateUserAction" method="post">
+		名前：<input type="text" name="name"><br>
+		パスワード：<input type="text" name="pass"><br>
+		<input type="submit" value="新規登録">
+	</form>
+		<%= createUserMessage %>
 </body>
 </html>
