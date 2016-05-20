@@ -32,7 +32,7 @@ public class LoginAction extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		RequestDispatcher rD = request.getRequestDispatcher("login.jsp");
+		rD = request.getRequestDispatcher("login.jsp");
 		rD.forward(request, response);
 	}
 

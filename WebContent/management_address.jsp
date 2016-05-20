@@ -9,7 +9,7 @@
 <title>住所情報管理画面</title>
 </head>
 <%
-	String insertAddressMessage="",updateAddressMessage="",showAddressMessage="",address="";
+	String insertAddressMessage="",updateAddressMessage="",showAddressMessage="",address="",catchAddress="";
 	if(request.getAttribute("insertAddressMessage") != null){
 		insertAddressMessage = (String)request.getAttribute("insertAddressMessage");
 	}
@@ -22,13 +22,20 @@
 	if(request.getAttribute("address") != null){
 		address = (String)request.getAttribute("address");
 	}
+	if(request.getAttribute("catchAddress") != null){
+		catchAddress = (String)request.getAttribute("catchAddress");
+	}
 %>
 <body>
 	<h1>住所情報登録アプリ/住所情報管理画面</h1>
 	<br>
 	<h2>住所情報の新規登録</h2>
+	<form action="/HNS/SearchAddressAction" method="post">
+		郵便番号を入力してください<br><input type="text" name="zip"><br>
+		<input type="submit" value="検索">
+	</form>
 	<form action="/HNS/InsertAddressAction" method="post">
-		住所を入力してください<br><input type="text" name="address"><br>
+		住所を入力してください<br><input type="text" name="address" value="<%=catchAddress %>"><br>
 		<input type="submit" value="登録">
 	</form>
 	<%=insertAddressMessage %>
