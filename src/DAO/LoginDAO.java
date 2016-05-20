@@ -18,6 +18,33 @@ public class LoginDAO {
 	private PreparedStatement ps;
 	private ResultSet rs;
 	LoginDTO dto = new LoginDTO();
+
+	public boolean checkUser(String name,String pass){
+		con = DBConnector.connectDB(dbUrl, dbName, dbUser, dbPass);
+		sql = "SELECT id FROM trn_user WHERE name=? OR pass=?";
+		try{
+			ps = con.prepareStatement(sql);
+			ps.setString(1, name);
+			ps.setString(2, pass);
+			rs = ps.executeQuery();
+			if(rs.next()){
+				rs.getInt("id");
+				return true;
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}finally {
+			if(con != null){
+				try{
+					con.close();
+				}catch(SQLException e){
+					e.printStackTrace();
+				}
+			}
+		}
+		return false;
+	}
+
 	public boolean selectUser(String name,String pass){
 		con = DBConnector.connectDB(dbUrl, dbName, dbUser, dbPass);
 		sql = "SELECT id FROM trn_user WHERE name=? AND pass=?";
