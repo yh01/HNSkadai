@@ -50,6 +50,8 @@ public class LoginAction extends HttpServlet {
 				dto = dao.getDto();
 				id = dto.getId();
 				session = request.getSession();
+				session.invalidate();
+				session = request.getSession();
 				session.setAttribute("id", id);
 				rD = request.getRequestDispatcher("management_address.jsp");
 				rD.forward(request, response);

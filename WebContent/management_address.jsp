@@ -24,6 +24,8 @@
 	}
 %>
 <body>
+	<h1>住所情報登録アプリ/住所情報管理画面</h1>
+	<br>
 	<h2>住所情報の新規登録</h2>
 	<form action="/HNS/InsertAddressAction" method="post">
 		住所を入力してください<br><input type="text" name="address"><br>
@@ -56,7 +58,12 @@
 	<form action="/HNS/ShowAddressAction" method="post">
 		<input type="submit" value="表示">
 	</form>
-	<%=address %><br>
-	<%=showAddressMessage %>
+	<%=showAddressMessage %><br>
+	<%=address %>
+
+	<h2>ログアウト</h2>
+	<form action="/HNS/LogoutAction" method="post">
+		<input type="submit" value="ログアウト">
+	</form>
 </body>
 </html>

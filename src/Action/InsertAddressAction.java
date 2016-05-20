@@ -50,7 +50,7 @@ public class InsertAddressAction extends HttpServlet {
 					rD = request.getRequestDispatcher("management_address.jsp");
 					rD.forward(request, response);
 				}else if(count == 0){
-					insertAddressMessage = "住所の登録に失敗しました。";
+					insertAddressMessage = "住所の登録に失敗しました。既に登録済みの可能性があります。";
 					request.setAttribute("insertAddressMessage", insertAddressMessage);
 					rD = request.getRequestDispatcher("management_address.jsp");
 					rD.forward(request, response);
