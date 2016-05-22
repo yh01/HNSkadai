@@ -9,9 +9,9 @@ import util.DBConnector;
 
 public class CreateUserDAO {
 	private String sql,
-	dbUrl = "jdbc:mysql://172.16.0.22/",
-	dbUser = "user1",
-	dbPass = "mysql",
+	dbUrl = "jdbc:mysql://localhost/",//"jdbc:mysql://172.16.0.22/"
+	dbUser = "root",//"user1"
+	dbPass = "mysql",//"mysql"
 	dbName = "HNS";
 	private Connection con;
 	private PreparedStatement ps;
@@ -49,6 +49,8 @@ public class CreateUserDAO {
 			if(rs.next()){
 				rs.getInt("id");
 				return true;
+			}else{
+				return false;
 			}
 		}catch(SQLException e){
 			e.printStackTrace();

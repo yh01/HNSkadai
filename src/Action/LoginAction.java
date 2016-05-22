@@ -19,9 +19,9 @@ import DTO.LoginDTO;
 @WebServlet("/LoginAction")
 public class LoginAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	String name,pass,loginMessage = null;
+	String name,pass,catchAddress,loginMessage = null;
 	int id;
-	boolean result;
+	boolean result,check,getAddress;
 	LoginDAO dao = new LoginDAO();
 	LoginDTO dto = new LoginDTO();
 	HttpSession session;
@@ -45,18 +45,38 @@ public class LoginAction extends HttpServlet {
 		name = request.getParameter("name");
 		pass = request.getParameter("pass");
 		if(!name.isEmpty() && !pass.isEmpty()){
-		result = dao.selectUser(name, pass);
-			if(result){
-				dto = dao.getDto();
-				id = dto.getId();
-				session = request.getSession();
-				session.invalidate();
-				session = request.getSession();
-				session.setAttribute("id", id);
-				rD = request.getRequestDispatcher("management_address.jsp");
-				rD.forward(request, response);
-			}else if(!result){
-				loginMessage = "ログインに失敗しました。";
+		check = dao.checkUser(name, pass);
+			if(check){
+			result = dao.selectUser(name, pass);
+				if(result){
+					dto = dao.getDto();
+					id = dto.getId();
+					getAddress = dao.getAddress(id);
+					if(getAddress){
+						catchAddress = dto.getAddress();
+						request.setAttribute("catchAddress", catchAddress);
+						session = request.getSession();
+						session.invalidate();
+						session = request.getSession();
+						session.setAttribute("id", id);
+						rD = request.getRequestDispatcher("management_address.jsp");
+						rD.forward(request, response);
+					}else if(!getAddress){
+						session = request.getSession();
+						session.invalidate();
+						session = request.getSession();
+						session.setAttribute("id", id);
+						rD = request.getRequestDispatcher("management_address.jsp");
+						rD.forward(request, response);
+					}
+				}else if(!result){
+					loginMessage = "ユーザーネームかパスワードが間違っています。";
+					request.setAttribute("loginMessage", loginMessage);
+					rD = request.getRequestDispatcher("login.jsp");
+					rD.forward(request, response);
+				}
+			}else if(!check){
+				loginMessage = "新規登録してください。";
 				request.setAttribute("loginMessage", loginMessage);
 				rD = request.getRequestDispatcher("login.jsp");
 				rD.forward(request, response);

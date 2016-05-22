@@ -1,7 +1,7 @@
 package DTO;
 
 public class SearchAddressDTO {
-	private String ken_name,city_name,ward,town_name;
+	private String zip,ken_name,city_name,ward,town_name;
 
 	public String getKen_name() {
 		return ken_name;
@@ -33,5 +33,13 @@ public class SearchAddressDTO {
 
 	public void setTown_name(String town_name) {
 		this.town_name = town_name;
+	}
+
+	public String getZip() {
+		return zip;
+	}
+
+	public void setZip(String zip) {
+		this.zip = zip;
 	}
 }

@@ -46,9 +46,10 @@ public class SearchAddressAction extends HttpServlet {
 		result = dao.searchAddress(zip);
 		if(result){
 			dto = dao.getDto();
-			catchAddress = dto.getKen_name()+dto.getCity_name()+dto.getWard()+dto.getTown_name();
+			catchAddress = dto.getZip()+dto.getKen_name()+dto.getCity_name()+dto.getWard()+dto.getTown_name();
 			System.out.println(catchAddress);
 			request.setAttribute("catchAddress", catchAddress);
+			request.setAttribute("zip", zip);
 			rD = request.getRequestDispatcher("management_address.jsp");
 			rD.forward(request, response);
 		}else if(!result){

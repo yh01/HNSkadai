@@ -1,16 +1,7 @@
 package DTO;
 
-public class LoginDTO {
-	private int id;
+public class InsertOrUpdateAddressDTO {
 	private String address;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public String getAddress() {
 		return address;

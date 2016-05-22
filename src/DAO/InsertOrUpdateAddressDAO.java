@@ -5,59 +5,74 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import DTO.LoginDTO;
+import DTO.InsertOrUpdateAddressDTO;
 import util.DBConnector;
 
-public class LoginDAO {
+public class InsertOrUpdateAddressDAO {
 	private String sql,
-		dbUrl="jdbc:mysql://localhost/",
-		dbUser = "root",
-		dbPass = "mysql",
-		dbName = "HNS";
+	dbUrl = "jdbc:mysql://localhost/",//jdbc:mysql://172.16.0.22/
+	dbUser = "root",//user1
+	dbPass = "mysql",//
+	dbName = "HNS";//
 	private Connection con;
 	private PreparedStatement ps;
+	private int count;
 	private ResultSet rs;
-	LoginDTO dto = new LoginDTO();
+	InsertOrUpdateAddressDTO dto = new InsertOrUpdateAddressDTO();
 
-	public boolean checkUser(String name,String pass){
-		con = DBConnector.connectDB(dbUrl, dbName, dbUser, dbPass);
-		sql = "SELECT id FROM trn_user WHERE name=? OR pass=?";
+	public int insertAddress(int id, String address) {
+		count = 0;
 		try{
+			con = DBConnector.connectDB(dbUrl, dbName, dbUser, dbPass);
+			sql = "INSERT INTO trn_address (id,address)VALUES(?,?)";
 			ps = con.prepareStatement(sql);
-			ps.setString(1, name);
-			ps.setString(2, pass);
-			rs = ps.executeQuery();
-			if(rs.next()){
-				rs.getInt("id");
-				return true;
-			}else{
-				return false;
-			}
+			ps.setInt(1, id);
+			ps.setString(2, address);
+			count = ps.executeUpdate();
 		}catch(SQLException e){
 			e.printStackTrace();
 		}finally {
-			if(con != null){
-				try{
-					con.close();
-				}catch(SQLException e){
-					e.printStackTrace();
-				}
+			try{
+				con.close();
+			}catch(SQLException e){
+				e.printStackTrace();
 			}
 		}
-		return false;
+		return count;
 	}
 
-	public boolean selectUser(String name,String pass){
+	public int updateAddress(int id, String address) {
+		count = 0;
+		try{
+			con = DBConnector.connectDB(dbUrl, dbName, dbUser, dbPass);
+			sql = "UPDATE trn_address SET address = ? WHERE id = ?";
+			ps = con.prepareStatement(sql);
+			ps.setString(1, address);
+			ps.setInt(2, id);
+			count = ps.executeUpdate();
+		}catch(SQLException e){
+			e.printStackTrace();
+		}finally {
+			try{
+				con.close();
+			}catch(SQLException e){
+				e.printStackTrace();
+			}
+		}
+		return count;
+	}
+
+	public boolean checkAddress(int id){
 		con = DBConnector.connectDB(dbUrl, dbName, dbUser, dbPass);
-		sql = "SELECT id FROM trn_user WHERE name=? AND pass=?";
+		sql = "SELECT id FROM trn_address WHERE id=?";
 		try{
 			ps = con.prepareStatement(sql);
-			ps.setString(1, name);
-			ps.setString(2, pass);
+			ps.setInt(1, id);
 			rs = ps.executeQuery();
 			if(rs.next()){
-				dto.setId(rs.getInt("id"));
 				return true;
+			}else{
+				return false;
 			}
 		}catch(SQLException e){
 			e.printStackTrace();
@@ -100,7 +115,8 @@ public class LoginDAO {
 		return false;
 	}
 
-	public LoginDTO getDto() {
+
+	public InsertOrUpdateAddressDTO getDto() {
 		return dto;
 	}
 }

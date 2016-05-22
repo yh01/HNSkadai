@@ -8,8 +8,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import DAO.CreateUserDAO;
+import DAO.LoginDAO;
+import DTO.LoginDTO;
 
 /**
  * Servlet implementation class CreateUserAction
@@ -18,9 +21,12 @@ import DAO.CreateUserDAO;
 public class CreateUserAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	String name,pass,createUserMessage;
+	int id;
+	boolean check;
 	int count;
 	CreateUserDAO dao = new CreateUserDAO();
 	RequestDispatcher rD;
+	HttpSession session;
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -44,14 +50,30 @@ public class CreateUserAction extends HttpServlet {
 		name = request.getParameter("name");
 		pass = request.getParameter("pass");
 		if(!name.isEmpty() && !pass.isEmpty()){
-			count = dao.insertUser(name,pass);
-			if(count > 0){
-				createUserMessage = "登録に成功しました。";
-				request.setAttribute("createUserMessage", createUserMessage);
-				rD = request.getRequestDispatcher("login.jsp");
-				rD.forward(request, response);
-			}else if(count == 0){
-				createUserMessage = "登録に失敗しました。";
+			check = dao.checkUserName(name);
+			if(!check){
+				count = dao.insertUser(name,pass);
+				if(count > 0){
+					LoginDAO dao = new LoginDAO();
+					LoginDTO dto = new LoginDTO();
+					dao.selectUser(name, pass);
+					dto = dao.getDto();
+					id = dto.getId();
+					System.out.println(id);
+					session = request.getSession();
+					session.invalidate();
+					session = request.getSession();
+					session.setAttribute("id", id);
+					rD = request.getRequestDispatcher("management_address.jsp");
+					rD.forward(request, response);
+				}else if(count == 0){
+					createUserMessage = "登録に失敗しました。";
+					request.setAttribute("createUserMessage", createUserMessage);
+					rD = request.getRequestDispatcher("login.jsp");
+					rD.forward(request, response);
+				}
+			}else if(check){
+				createUserMessage = "この名前は登録済みです。";
 				request.setAttribute("createUserMessage", createUserMessage);
 				rD = request.getRequestDispatcher("login.jsp");
 				rD.forward(request, response);
