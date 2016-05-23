@@ -15,6 +15,7 @@
 		zip="",
 		catchAddress="",
 		managementAddressMessage="",
+		masterMessage="",
 		showAddress="";
 	if(request.getAttribute("showAddressMessage") != null){
 		showAddressMessage = (String)request.getAttribute("showAddressMessage");
@@ -34,6 +35,9 @@
 	if(request.getAttribute("managementAddressMessage") != null){
 		managementAddressMessage = (String)request.getAttribute("managementAddressMessage");
 	}
+	if(request.getAttribute("masterMessage") != null){
+		masterMessage = (String)request.getAttribute("masterMessage");
+	}
 %>
 <body>
 	<h1>住所情報登録アプリ/住所情報管理画面</h1>
@@ -50,6 +54,7 @@
 		<input type="submit" value="登録/更新">
 	</form>
 	<%=managementAddressMessage %>
+	<%=masterMessage %>
 	<br>
 	<br>
 	<br>
