@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import DAO.InsertOrUpdateAddressDAO;
+import DAO.ShowAddressDAO;
 import DTO.InsertOrUpdateAddressDTO;
+import DTO.ShowAddressDTO;
 
 /**
  * Servlet implementation class InsertOrUpdateAddressAction
@@ -20,8 +22,8 @@ import DTO.InsertOrUpdateAddressDTO;
 public class InsertOrUpdateAddressAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	int count,id;
-	String address,managementAddressMessage,catchAddress;
-	boolean check,getAddress;
+	String address,managementAddressMessage,catchAddress,showAddress;
+	boolean check,getAddress,result;
 	HttpSession session;
 	RequestDispatcher rD;
 	InsertOrUpdateAddressDAO dao = new InsertOrUpdateAddressDAO();
@@ -57,6 +59,12 @@ public class InsertOrUpdateAddressAction extends HttpServlet {
 							request.setAttribute("catchAddress", catchAddress);
 							managementAddressMessage = "住所情報の更新に成功しました。";
 							request.setAttribute("managementAddressMessage", managementAddressMessage);
+							ShowAddressDAO dao = new ShowAddressDAO();
+							ShowAddressDTO dto = new ShowAddressDTO();
+							dto = dao.getDto();
+							dao.selectAddress(id);
+							showAddress = dto.getAddress();
+							request.setAttribute("showAddress", showAddress);
 							rD = request.getRequestDispatcher("management_address.jsp");
 							rD.forward(request, response);
 						}else if(!getAddress){

@@ -50,7 +50,7 @@ public class ShowAddressAction extends HttpServlet {
 				request.setAttribute("showAddressMessage", showAddressMessage);
 				dto = dao.getDto();
 				address = dto.getAddress();
-				request.setAttribute("address", address);
+				request.setAttribute("showAddress", address);
 				rD = request.getRequestDispatcher("management_address.jsp");
 				rD.forward(request, response);
 			}else if(!result){

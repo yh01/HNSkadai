@@ -10,8 +10,8 @@ import util.DBConnector;
 
 public class ShowAddressDAO {
 	private String sql,
-		dbUrl = "jdbc:mysql://172.16.0.22/",
-		dbUser = "user1",
+		dbUrl = "jdbc:mysql://localhost/",
+		dbUser = "root",
 		dbPass = "mysql",
 		dbName = "HNS";
 	private boolean result;

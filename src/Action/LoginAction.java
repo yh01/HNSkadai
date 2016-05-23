@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import DAO.LoginDAO;
+import DAO.ShowAddressDAO;
 import DTO.LoginDTO;
+import DTO.ShowAddressDTO;
 
 /**
  * Servlet implementation class LoginAction
@@ -19,7 +21,7 @@ import DTO.LoginDTO;
 @WebServlet("/LoginAction")
 public class LoginAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	String name,pass,catchAddress,loginMessage = null;
+	String name,pass,catchAddress,showAddress,loginMessage = null;
 	int id;
 	boolean result,check,getAddress;
 	LoginDAO dao = new LoginDAO();
@@ -59,6 +61,13 @@ public class LoginAction extends HttpServlet {
 						session.invalidate();
 						session = request.getSession();
 						session.setAttribute("id", id);
+						session.setAttribute("name", name);
+						ShowAddressDAO dao = new ShowAddressDAO();
+						ShowAddressDTO dto = new ShowAddressDTO();
+						dto = dao.getDto();
+						dao.selectAddress(id);
+						showAddress = dto.getAddress();
+						request.setAttribute("showAddress", showAddress);
 						rD = request.getRequestDispatcher("management_address.jsp");
 						rD.forward(request, response);
 					}else if(!getAddress){
@@ -66,6 +75,13 @@ public class LoginAction extends HttpServlet {
 						session.invalidate();
 						session = request.getSession();
 						session.setAttribute("id", id);
+						session.setAttribute("name", name);
+						ShowAddressDAO dao = new ShowAddressDAO();
+						ShowAddressDTO dto = new ShowAddressDTO();
+						dto = dao.getDto();
+						dao.selectAddress(id);
+						showAddress = dto.getAddress();
+						request.setAttribute("showAddress", showAddress);
 						rD = request.getRequestDispatcher("management_address.jsp");
 						rD.forward(request, response);
 					}

@@ -64,6 +64,7 @@ public class CreateUserAction extends HttpServlet {
 					session.invalidate();
 					session = request.getSession();
 					session.setAttribute("id", id);
+					session.setAttribute("name", name);
 					rD = request.getRequestDispatcher("management_address.jsp");
 					rD.forward(request, response);
 				}else if(count == 0){

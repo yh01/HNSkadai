@@ -17,10 +17,10 @@ create table trn_address(
 
 create table address(
 	zip varchar(255),
-	ken_name varchar(255),
-	city_name varchar(255),
+	ken_or_capital varchar(255),
+	city varchar(255),
 	ward varchar(255),
-	town_name varchar(255)
+	town varchar(255)
 );
 
 insert into address values

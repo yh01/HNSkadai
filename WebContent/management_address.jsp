@@ -9,11 +9,13 @@
 <title>住所情報管理画面</title>
 </head>
 <%
-	String showAddressMessage="",
+	String name=(String)session.getAttribute("name"),
+		showAddressMessage="",showPhoneNumber="",showName="",
 		address="",
 		zip="",
 		catchAddress="",
-		managementAddressMessage="";
+		managementAddressMessage="",
+		showAddress="";
 	if(request.getAttribute("showAddressMessage") != null){
 		showAddressMessage = (String)request.getAttribute("showAddressMessage");
 	}
@@ -25,6 +27,9 @@
 	}
 	if(request.getAttribute("catchAddress") != null){
 		catchAddress = (String)request.getAttribute("catchAddress");
+	}
+	if(request.getAttribute("showAddress") != null){
+		showAddress = (String)request.getAttribute("showAddress");
 	}
 	if(request.getAttribute("managementAddressMessage") != null){
 		managementAddressMessage = (String)request.getAttribute("managementAddressMessage");
@@ -39,7 +44,9 @@
 		<input type="submit" value="検索">
 	</form>
 	<form action="/HNS/InsertOrUpdateAddressAction" method="post">
-		住所を入力してください<br><input type="text" name="address" value="<%=catchAddress %>"><br>
+		住所を入力してください:<input type="text" name="address" value="<%=catchAddress %>"><br>
+		氏名を入力してください:<br>
+		電話番号を入力してください:<br>
 		<input type="submit" value="登録/更新">
 	</form>
 	<%=managementAddressMessage %>
@@ -50,11 +57,11 @@
 	<br>
 	<br>
 	<h2>住所情報表示</h2>
-	<form action="/HNS/ShowAddressAction" method="post">
-		<input type="submit" value="表示">
-	</form>
+	<%=name %>さんの情報
 	<%=showAddressMessage %><br>
-	<%=address %>
+	住所：<%=showAddress %><br>
+	氏名：<%=showName %><br>
+	電話番号：<%=showPhoneNumber %><br>
 
 	<h2>ログアウト</h2>
 	<form action="/HNS/LogoutAction" method="post">

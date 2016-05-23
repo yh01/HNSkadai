@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import DAO.SearchAddressDAO;
+import DAO.ShowAddressDAO;
 import DTO.SearchAddressDTO;
+import DTO.ShowAddressDTO;
 
 /**
  * Servlet implementation class SearchAddressAction
@@ -19,7 +21,8 @@ import DTO.SearchAddressDTO;
 @WebServlet("/SearchAddressAction")
 public class SearchAddressAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	String zip,catchAddress;
+	String zip,catchAddress,showAddress;
+	int id;
 	boolean result;
 	SearchAddressDAO dao = new SearchAddressDAO();
 	SearchAddressDTO dto = new SearchAddressDTO();
@@ -41,6 +44,8 @@ public class SearchAddressAction extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");
+		session = request.getSession();
+		id = (int)session.getAttribute("id");
 		zip = request.getParameter("zip");
 		System.out.println(zip);
 		result = dao.searchAddress(zip);
@@ -50,6 +55,12 @@ public class SearchAddressAction extends HttpServlet {
 			System.out.println(catchAddress);
 			request.setAttribute("catchAddress", catchAddress);
 			request.setAttribute("zip", zip);
+			ShowAddressDAO dao = new ShowAddressDAO();
+			ShowAddressDTO dto = new ShowAddressDTO();
+			dto = dao.getDto();
+			dao.selectAddress(id);
+			showAddress = dto.getAddress();
+			request.setAttribute("showAddress", showAddress);
 			rD = request.getRequestDispatcher("management_address.jsp");
 			rD.forward(request, response);
 		}else if(!result){
@@ -57,6 +68,12 @@ public class SearchAddressAction extends HttpServlet {
 			System.out.println(catchAddress);
 			System.out.println("エラー");
 			request.setAttribute("catchAddress", catchAddress);
+			ShowAddressDAO dao = new ShowAddressDAO();
+			ShowAddressDTO dto = new ShowAddressDTO();
+			dto = dao.getDto();
+			dao.selectAddress(id);
+			showAddress = dto.getAddress();
+			request.setAttribute("showAddress", showAddress);
 			rD = request.getRequestDispatcher("management_address.jsp");
 			rD.forward(request, response);
 		}
