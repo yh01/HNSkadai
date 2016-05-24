@@ -20,14 +20,15 @@ public class InsertOrUpdateAddressDAO {
 	private ResultSet rs;
 	InsertOrUpdateAddressDTO dto = new InsertOrUpdateAddressDTO();
 
-	public int insertAddress(int id, String address) {
+	public int insertAddress(int id, String zip, String address) {
 		count = 0;
 		try{
 			con = DBConnector.connectDB(dbUrl, dbName, dbUser, dbPass);
-			sql = "INSERT INTO trn_address (id,address)VALUES(?,?)";
+			sql = "INSERT INTO trn_address (id,zip,address)VALUES(?,?,?)";
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, id);
-			ps.setString(2, address);
+			ps.setString(2, zip);
+			ps.setString(3, address);
 			count = ps.executeUpdate();
 		}catch(SQLException e){
 			e.printStackTrace();
@@ -41,14 +42,15 @@ public class InsertOrUpdateAddressDAO {
 		return count;
 	}
 
-	public int updateAddress(int id, String address) {
+	public int updateAddress(int id, String zip,String address) {
 		count = 0;
 		try{
 			con = DBConnector.connectDB(dbUrl, dbName, dbUser, dbPass);
-			sql = "UPDATE trn_address SET address = ? WHERE id = ?";
+			sql = "UPDATE trn_address SET zip = ? , address = ? WHERE id = ?";
 			ps = con.prepareStatement(sql);
-			ps.setString(1, address);
-			ps.setInt(2, id);
+			ps.setString(1, zip);
+			ps.setString(2, address);
+			ps.setInt(3, id);
 			count = ps.executeUpdate();
 		}catch(SQLException e){
 			e.printStackTrace();

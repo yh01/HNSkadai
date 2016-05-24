@@ -76,11 +76,7 @@ public class LoginAction extends HttpServlet {
 						session = request.getSession();
 						session.setAttribute("id", id);
 						session.setAttribute("name", name);
-						ShowAddressDAO dao = new ShowAddressDAO();
-						ShowAddressDTO dto = new ShowAddressDTO();
-						dto = dao.getDto();
-						dao.selectAddress(id);
-						showAddress = dto.getAddress();
+						showAddress = "まだ登録されていません";
 						request.setAttribute("showAddress", showAddress);
 						rD = request.getRequestDispatcher("management_address.jsp");
 						rD.forward(request, response);

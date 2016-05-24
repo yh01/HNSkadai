@@ -58,6 +58,8 @@ public class LoginDAO {
 			if(rs.next()){
 				dto.setId(rs.getInt("id"));
 				return true;
+			}else if(!rs.next()){
+				return false;
 			}
 		}catch(SQLException e){
 			e.printStackTrace();

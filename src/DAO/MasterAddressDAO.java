@@ -22,21 +22,22 @@ public class MasterAddressDAO {
 
 	public boolean checkAddress(String address){
 		System.out.println(address);
-		String zip="",kenOrCapital="",cityName="",ward="",townNumAndName="";
+		String zip=" ",kenOrCapital=" ",cityName=" ",ward=" ",townNumAndName=" ";
 		int zipStart=0,zipEnd=7,startKenOrCapital=7,endKen = address.indexOf("県")+1,endCapital=address.indexOf("都")+1,
 				startCityForKen = address.indexOf("県")+1,startCityForCapital = address.indexOf("都")+1,endCity = address.indexOf("市")+1,
 				startWard = address.indexOf("市")+1,endWard = address.indexOf("区")+1,
 				startTown=address.indexOf("区")+1,endTown=address.length();
-
+		Pattern patternAddress = Pattern.compile("^\\d{7}+.*(県|都)+.*(市|区)+.*$");
 		Pattern patternKen = Pattern.compile("県");
 		Pattern patternCapital = Pattern.compile("都");
 		Pattern patternCity = Pattern.compile("市");
 		Pattern patternWard = Pattern.compile("区");
 		Matcher matcherKen = patternKen.matcher(address);
+		Matcher matcherAddress = patternAddress.matcher(address);
 		Matcher matcherCapital = patternCapital.matcher(address);
 		Matcher matcherCity = patternCity.matcher(address);
 		Matcher matcherWard = patternWard.matcher(address);
-		if(address.matches("^\\d{7}$") && address.matches(".*県*") || address.matches(".*都*") && address.matches(".*市*") ||address.matches(".*区*")){
+		if(matcherAddress.find()){
 			System.out.println("true");
 			zip = address.substring(zipStart,zipEnd);
 			dto.setZip(zip);
@@ -53,14 +54,14 @@ public class MasterAddressDAO {
 						dto.setTownNum(townNumAndName);
 						return true;
 					}else if(!matcherWard.find()){
-						ward = "";
+						ward = " ";
 						dto.setWard(ward);
 						townNumAndName = address.substring(endCity,endTown);
 						dto.setTownNum(townNumAndName);
 						return true;
 					}
 				}else if(!matcherCity.find()){
-					cityName="";
+					cityName=" ";
 					ward=address.substring(endKen,endWard);
 					dto.setWard(ward);
 					townNumAndName = address.substring(startTown,endTown);
@@ -81,7 +82,7 @@ public class MasterAddressDAO {
 						dto.setTownNum(townNumAndName);
 						return true;
 					}else if(!matcherWard.find()){
-						ward = "";
+						ward = " ";
 						dto.setWard(ward);
 						townNumAndName = address.substring(endCity,endTown);
 						dto.setTownNum(townNumAndName);

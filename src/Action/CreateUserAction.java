@@ -20,7 +20,7 @@ import DTO.LoginDTO;
 @WebServlet("/CreateUserAction")
 public class CreateUserAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	String name,pass,createUserMessage;
+	String name,pass,createUserMessage,showAddress;
 	int id;
 	boolean check;
 	int count;
@@ -65,6 +65,8 @@ public class CreateUserAction extends HttpServlet {
 					session = request.getSession();
 					session.setAttribute("id", id);
 					session.setAttribute("name", name);
+					showAddress = "まだ登録されていません";
+					request.setAttribute("showAddress", showAddress);
 					rD = request.getRequestDispatcher("management_address.jsp");
 					rD.forward(request, response);
 				}else if(count == 0){
