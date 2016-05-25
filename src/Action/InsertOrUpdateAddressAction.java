@@ -117,10 +117,6 @@ public class InsertOrUpdateAddressAction extends HttpServlet {
 						address = null;
 						showAddress = "まだ登録されていません。";
 						request.setAttribute("showAddress", showAddress);
-					}else if(address==null){
-						address = null;
-						showAddress = "まだ登録されていません。";
-						request.setAttribute("showAddress", showAddress);
 					}
 				}else if(!check){
 					showAddress = "まだ登録されていません。";
@@ -165,6 +161,18 @@ public class InsertOrUpdateAddressAction extends HttpServlet {
 					showAddress = dto1.getAddress();
 					showName = dto1.getName();
 					showPhoneNumber = dto1.getPhoneNumber();
+					showAddress = StringUtils.defaultString(showAddress);
+					showName = StringUtils.defaultString(showName);
+					showPhoneNumber = StringUtils.defaultString(showPhoneNumber);
+					if(showAddress.isEmpty()){
+						showAddress = "まだ登録されていません";
+					}
+					if(showName.isEmpty()){
+						showName = "まだ登録されていません";
+					}
+					if(showPhoneNumber.isEmpty()){
+						showPhoneNumber = "まだ登録されていません";
+					}
 					request.setAttribute("showAddress", showAddress);
 					request.setAttribute("showName", showName);
 					request.setAttribute("showPhoneNumber", showPhoneNumber);
@@ -239,7 +247,23 @@ public class InsertOrUpdateAddressAction extends HttpServlet {
 						dto1 = dao1.getDto();
 						dao1.selectAddress(id);
 						showAddress = dto1.getAddress();
+						showName = dto1.getName();
+						showPhoneNumber = dto1.getPhoneNumber();
+						showAddress = StringUtils.defaultString(showAddress);
+						showName = StringUtils.defaultString(showName);
+						showPhoneNumber = StringUtils.defaultString(showPhoneNumber);
+						if(showAddress.isEmpty()){
+							showAddress = "まだ登録されていません";
+						}
+						if(showName.isEmpty()){
+							showName = "まだ登録されていません";
+						}
+						if(showPhoneNumber.isEmpty()){
+							showPhoneNumber = "まだ登録されていません";
+						}
 						request.setAttribute("showAddress", showAddress);
+						request.setAttribute("showName", showName);
+						request.setAttribute("showPhoneNumber", showPhoneNumber);
 						rD = request.getRequestDispatcher("management_address.jsp");
 						rD.forward(request, response);
 					}else if(!getAddress){
@@ -250,7 +274,23 @@ public class InsertOrUpdateAddressAction extends HttpServlet {
 						dto1 = dao1.getDto();
 						dao1.selectAddress(id);
 						showAddress = dto1.getAddress();
+						showName = dto1.getName();
+						showPhoneNumber = dto1.getPhoneNumber();
+						showAddress = StringUtils.defaultString(showAddress);
+						showName = StringUtils.defaultString(showName);
+						showPhoneNumber = StringUtils.defaultString(showPhoneNumber);
+						if(showAddress.isEmpty()){
+							showAddress = "まだ登録されていません";
+						}
+						if(showName.isEmpty()){
+							showName = "まだ登録されていません";
+						}
+						if(showPhoneNumber.isEmpty()){
+							showPhoneNumber = "まだ登録されていません";
+						}
 						request.setAttribute("showAddress", showAddress);
+						request.setAttribute("showName", showName);
+						request.setAttribute("showPhoneNumber", showPhoneNumber);
 						rD = request.getRequestDispatcher("management_address.jsp");
 						rD.forward(request, response);
 					}
@@ -264,6 +304,18 @@ public class InsertOrUpdateAddressAction extends HttpServlet {
 					showAddress = dto1.getAddress();
 					showName = dto1.getName();
 					showPhoneNumber = dto1.getPhoneNumber();
+					showAddress = StringUtils.defaultString(showAddress);
+					showName = StringUtils.defaultString(showName);
+					showPhoneNumber = StringUtils.defaultString(showPhoneNumber);
+					if(showAddress.isEmpty()){
+						showAddress = "まだ登録されていません";
+					}
+					if(showName.isEmpty()){
+						showName = "まだ登録されていません";
+					}
+					if(showPhoneNumber.isEmpty()){
+						showPhoneNumber = "まだ登録されていません";
+					}
 					request.setAttribute("showAddress", showAddress);
 					request.setAttribute("showName", showName);
 					request.setAttribute("showPhoneNumber", showPhoneNumber);
