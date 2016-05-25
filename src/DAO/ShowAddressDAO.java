@@ -24,12 +24,14 @@ public class ShowAddressDAO {
 		result = true;
 		try{
 			con = DBConnector.connectDB(dbUrl, dbName, dbUser, dbPass);
-			sql = "SELECT address FROM trn_address WHERE id = ? ";
+			sql = "SELECT name,phone_number,address FROM trn_address WHERE id = ? ";
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, id);
 			rs = ps.executeQuery();
 			if(rs.next()){
 				dto.setAddress(rs.getString("address"));
+				dto.setName(rs.getString("name"));
+				dto.setPhoneNumber(rs.getString("phone_number"));
 				result = true;
 			}
 		} catch (SQLException e) {

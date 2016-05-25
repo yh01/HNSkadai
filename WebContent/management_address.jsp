@@ -13,12 +13,27 @@
 		showAddressMessage="",showPhoneNumber="",showName="",
 		address="",
 		zip="",
+		phoneNumber="",
 		catchAddress="",
+		catchName="",
+		catchPhoneNumber="",
 		managementAddressMessage="",
+		nameMessage="",
+		phoneMessage="",
+		addressMessage="",
 		masterMessage="",
 		showAddress="";
 	if(request.getAttribute("showAddressMessage") != null){
 		showAddressMessage = (String)request.getAttribute("showAddressMessage");
+	}
+	if(request.getAttribute("nameMessage") != null){
+		nameMessage = (String)request.getAttribute("nameMessage");
+	}
+	if(request.getAttribute("addressMessage") != null){
+		addressMessage = (String)request.getAttribute("addressMessage");
+	}
+	if(request.getAttribute("phoneMessage") != null){
+		phoneMessage = (String)request.getAttribute("phoneMessage");
 	}
 	if(request.getAttribute("address") != null){
 		address = (String)request.getAttribute("address");
@@ -29,8 +44,14 @@
 	if(request.getAttribute("catchAddress") != null){
 		catchAddress = (String)request.getAttribute("catchAddress");
 	}
+	if(request.getAttribute("showPhoneNumber") != null){
+		showPhoneNumber = (String)request.getAttribute("showPhoneNumber");
+	}
 	if(request.getAttribute("showAddress") != null){
 		showAddress = (String)request.getAttribute("showAddress");
+	}
+	if(request.getAttribute("showName") != null){
+		showName= (String)request.getAttribute("showName");
 	}
 	if(request.getAttribute("managementAddressMessage") != null){
 		managementAddressMessage = (String)request.getAttribute("managementAddressMessage");
@@ -48,9 +69,9 @@
 		<input type="submit" value="検索">
 	</form>
 	<form action="/HNS/InsertOrUpdateAddressAction" method="post">
-		住所を入力してください:<input type="text" name="address" value="<%=catchAddress %>"><br>
-		氏名を入力してください:<br>
-		電話番号を入力してください:<br>
+		住所を入力してください:<input type="text" name="address" value="<%=catchAddress %>"><%=addressMessage %><br>
+		氏名を入力してください:<input type="text" name="name" value="<%=catchName %>"><%=nameMessage %><br>
+		電話番号を入力してください:<input type="text" name="phoneNumber" value="<%=catchPhoneNumber %>"><%=phoneMessage %><br>
 		<input type="submit" value="登録/更新">
 	</form>
 	<%=managementAddressMessage %>
