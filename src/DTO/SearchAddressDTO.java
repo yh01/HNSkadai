@@ -1,22 +1,30 @@
 package DTO;
 
 public class SearchAddressDTO {
-	private String zip,ken_name,city_name,ward,town_name;
+	private String address,zip,kenOrCapital,city,ward,town;
 
-	public String getKen_name() {
-		return ken_name;
+	public String getZip() {
+		return zip;
 	}
 
-	public void setKen_name(String ken_name) {
-		this.ken_name = ken_name;
+	public void setZip(String zip) {
+		this.zip = zip;
 	}
 
-	public String getCity_name() {
-		return city_name;
+	public String getKenOrCapital() {
+		return kenOrCapital;
 	}
 
-	public void setCity_name(String city_name) {
-		this.city_name = city_name;
+	public void setKenOrCapital(String kenOrCapital) {
+		this.kenOrCapital = kenOrCapital;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
 	}
 
 	public String getWard() {
@@ -27,19 +35,19 @@ public class SearchAddressDTO {
 		this.ward = ward;
 	}
 
-	public String getTown_name() {
-		return town_name;
+	public String getTown() {
+		return town;
 	}
 
-	public void setTown_name(String town_name) {
-		this.town_name = town_name;
+	public void setTown(String town) {
+		this.town = town;
 	}
 
-	public String getZip() {
-		return zip;
+	public String getAddress() {
+		return address;
 	}
 
-	public void setZip(String zip) {
-		this.zip = zip;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 }

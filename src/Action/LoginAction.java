@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
+
 import DAO.LoginDAO;
 import DAO.ShowAddressDAO;
 import DTO.LoginDTO;
@@ -21,7 +23,7 @@ import DTO.ShowAddressDTO;
 @WebServlet("/LoginAction")
 public class LoginAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	String name,pass,catchAddress,showAddress,loginMessage = null;
+	String name,pass,catchAddress,showAddress,showName,showPhoneNumber,loginMessage = null;
 	int id;
 	boolean result,check,getAddress;
 	LoginDAO dao = new LoginDAO();
@@ -53,34 +55,35 @@ public class LoginAction extends HttpServlet {
 				if(result){
 					dto = dao.getDto();
 					id = dto.getId();
-					getAddress = dao.getAddress(id);
-					if(getAddress){
-						catchAddress = dto.getAddress();
-						request.setAttribute("catchAddress", catchAddress);
-						session = request.getSession();
-						session.invalidate();
-						session = request.getSession();
-						session.setAttribute("id", id);
-						session.setAttribute("name", name);
-						ShowAddressDAO dao = new ShowAddressDAO();
-						ShowAddressDTO dto = new ShowAddressDTO();
-						dto = dao.getDto();
-						dao.selectAddress(id);
-						showAddress = dto.getAddress();
-						request.setAttribute("showAddress", showAddress);
-						rD = request.getRequestDispatcher("management_address.jsp");
-						rD.forward(request, response);
-					}else if(!getAddress){
-						session = request.getSession();
-						session.invalidate();
-						session = request.getSession();
-						session.setAttribute("id", id);
-						session.setAttribute("name", name);
+					session = request.getSession();
+					session.invalidate();
+					session = request.getSession();
+					session.setAttribute("id", id);
+					session.setAttribute("name", name);
+					ShowAddressDAO dao1 = new ShowAddressDAO();
+					ShowAddressDTO dto1 = new ShowAddressDTO();
+					dto1 = dao1.getDto();
+					dao1.selectAddress(id);
+					showAddress = dto1.getAddress();
+					showName = dto1.getName();
+					showPhoneNumber = dto1.getPhoneNumber();
+					showAddress = StringUtils.defaultString(showAddress);
+					showName = StringUtils.defaultString(showName);
+					showPhoneNumber = StringUtils.defaultString(showPhoneNumber);
+					if(showAddress.isEmpty()){
 						showAddress = "まだ登録されていません";
-						request.setAttribute("showAddress", showAddress);
-						rD = request.getRequestDispatcher("management_address.jsp");
-						rD.forward(request, response);
 					}
+					if(showName.isEmpty()){
+						showName = "まだ登録されていません";
+					}
+					if(showPhoneNumber.isEmpty()){
+						showPhoneNumber = "まだ登録されていません";
+					}
+					request.setAttribute("showAddress", showAddress);
+					request.setAttribute("showName", showName);
+					request.setAttribute("showPhoneNumber", showPhoneNumber);
+					rD = request.getRequestDispatcher("management_address.jsp");
+					rD.forward(request, response);
 				}else if(!result){
 					loginMessage = "ユーザーネームかパスワードが間違っています。";
 					request.setAttribute("loginMessage", loginMessage);

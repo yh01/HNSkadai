@@ -22,19 +22,18 @@ public class SearchAddressDAO {
 	public boolean searchAddress(String zip){
 		result = false;
 		con = DBConnector.connectDB(dbUrl, dbName, dbUser, dbPass);
-		sql = "SELECT zip,ken_name,city_name,ward,town_name FROM address WHERE zip = ? ";
+		sql = "SELECT zip,ken_or_capital,city,ward,town FROM address WHERE zip = ? ";
 		try{
 			ps = con.prepareStatement(sql);
 			ps.setString(1, zip);
 			rs = ps.executeQuery();
 			if(rs.next()){
 				dto.setZip(rs.getString("zip"));
-				dto.setKen_name(rs.getString("ken_name"));
-				dto.setCity_name(rs.getString("city_name"));
+				dto.setKenOrCapital(rs.getString("ken_or_capital"));
+				dto.setCity(rs.getString("city"));
 				dto.setWard(rs.getString("ward"));
-				dto.setTown_name(rs.getString("town_name"));
+				dto.setTown(rs.getString("town"));
 				result = true;
-				System.out.println("aaa");
 			}else{
 				result = false;
 			}
@@ -51,6 +50,34 @@ public class SearchAddressDAO {
 		}
 		System.out.println(result);
 		return result;
+	}
+
+	public boolean getAddress(int id){
+		con = DBConnector.connectDB(dbUrl, dbName, dbUser, dbPass);
+		sql = "SELECT zip,address FROM trn_address WHERE id = ? ";
+		try{
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, id);
+			rs = ps.executeQuery();
+			if(rs.next()){
+				dto.setZip(rs.getString("zip"));
+				dto.setAddress(rs.getString("address"));
+				return true;
+			}else{
+				return false;
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}finally {
+			if(con != null){
+				try{
+					con.close();
+				}catch(SQLException e){
+					e.printStackTrace();
+				}
+			}
+		}
+		return false;
 	}
 
 	public SearchAddressDTO getDto() {
