@@ -1,5 +1,5 @@
 drop database if exists HNS;
-create database HNS;
+create database HNS character set utf8;
 use HNS;
 create table trn_user(
 	id int primary key not null auto_increment,
@@ -26,3 +26,17 @@ create table address(
 insert into address values
 ("1638001","東京都","","新宿区","西新宿"),
 ("2318588","神奈川県","横浜市","中区","日本大通");
+
+create table code_test(
+	name varchar(255),
+	pass varchar(255)
+);
+
+insert into code_test values
+("あいう","あいう"),
+("test","test");
+
+create table hex_test(
+	name text,
+	pass text
+);

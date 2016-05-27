@@ -36,7 +36,8 @@ public class InsertOrUpdateAddressAction extends HttpServlet {
 	InsertOrUpdateAddressDAO dao = new InsertOrUpdateAddressDAO();
 	InsertOrUpdateAddressDTO dto = new InsertOrUpdateAddressDTO();
 	Pattern patternAddress = Pattern.compile("^\\d{7}+.*(県|都)+.*(市|区)+.*$");
-	Matcher matcherAddress;
+	Pattern patternPhoneNumber = Pattern.compile("^\\d{3,4}-\\d{3,4}-\\d{4}$");
+	Matcher matcherAddress,matcherPhoneNumber;
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -60,6 +61,7 @@ public class InsertOrUpdateAddressAction extends HttpServlet {
 			phoneNumber = request.getParameter("phoneNumber");
 			dto = dao.getDto();
 			matcherAddress = patternAddress.matcher(address);
+			matcherPhoneNumber = patternPhoneNumber.matcher(phoneNumber);
 			if(!name.isEmpty()||!address.isEmpty()||!phoneNumber.isEmpty()){
 				if(name.isEmpty()){
 					checkName = dao.checkName(id);
@@ -81,7 +83,6 @@ public class InsertOrUpdateAddressAction extends HttpServlet {
 						request.setAttribute("showName", showName);
 					}
 				}
-				System.out.println(showName);
 				if(phoneNumber.isEmpty()){
 					checkPhoneNum = dao.getPhoneNum(id);
 					if(checkPhoneNum){
@@ -101,6 +102,11 @@ public class InsertOrUpdateAddressAction extends HttpServlet {
 						showPhoneNumber = "まだ登録されていません。";
 						request.setAttribute("showPhoneNumber", showPhoneNumber);
 					}
+				}else if(!phoneNumber.isEmpty()&&!matcherPhoneNumber.find()){
+					getPhoneNum = dao.getPhoneNum(id);
+					phoneNumber = dto.getPhoneNumber();
+					phoneMessage = "000-000-0000の形式で入力してください。";
+					request.setAttribute("phoneMessage", phoneMessage);
 				}
 				if(address.isEmpty()){
 					check = dao.checkAddress(id);
